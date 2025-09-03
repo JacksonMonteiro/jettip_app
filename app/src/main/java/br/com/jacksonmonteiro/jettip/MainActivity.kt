@@ -1,7 +1,6 @@
 package br.com.jacksonmonteiro.jettip
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,6 +17,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -34,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.jacksonmonteiro.jettip.components.InputField
 import br.com.jacksonmonteiro.jettip.ui.theme.JetTipTheme
+import br.com.jacksonmonteiro.jettip.widgets.RoundIconButton
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,10 +94,12 @@ fun MainContent() {
     }
 }
 
+@Preview
 @Composable
 fun BillForm(
     modifier: Modifier = Modifier,
-    onValueChanged: (String) -> Unit = {}) {
+    onValueChanged: (String) -> Unit = {},
+) {
     val totalBillState = remember { mutableStateOf("") }
     val validState = remember(totalBillState.value) { totalBillState.value.trim().isNotEmpty() }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -106,7 +111,11 @@ fun BillForm(
         shape = RoundedCornerShape(corner = CornerSize((8.dp))),
         border = BorderStroke(width = 2.dp, color = Color.LightGray)
     ) {
-        Column(modifier = Modifier.padding(6.dp), verticalArrangement = Arrangement.Top, horizontalAlignment = Alignment.Start) {
+        Column(
+            modifier = Modifier.padding(6.dp),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
+        ) {
             InputField(
                 valueState = totalBillState,
                 labelId = "Insira a conta",
@@ -123,7 +132,22 @@ fun BillForm(
                     Text("Dividir:", modifier = Modifier.align(alignment = Alignment.CenterVertically))
                     Spacer(modifier = Modifier.width(120.dp))
                     Row(modifier = Modifier.padding(horizontal = 3.dp), horizontalArrangement = Arrangement.End) {
+                        RoundIconButton(
+                            imageVector = Icons.Default.Remove,
+                            onClick = {}
+                        )
 
+                        Text(
+                            text = "2",
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(start = 9.dp, end = 9.dp)
+                        )
+
+                        RoundIconButton(
+                            imageVector = Icons.Default.Add,
+                            onClick = {}
+                        )
                     }
                 }
             } else {
