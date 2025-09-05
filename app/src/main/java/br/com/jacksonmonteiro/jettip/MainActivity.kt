@@ -21,9 +21,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -102,6 +104,8 @@ fun BillForm(
 ) {
     val totalBillState = remember { mutableStateOf("") }
     val validState = remember(totalBillState.value) { totalBillState.value.trim().isNotEmpty() }
+    val sliderPositionState = remember { mutableFloatStateOf(0f) }
+
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Surface(
@@ -149,6 +153,24 @@ fun BillForm(
                             onClick = {}
                         )
                     }
+                }
+
+                Row(modifier = Modifier.padding(horizontal = 3.dp, vertical = 12.dp)) {
+                    Text(text = "Tip", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                    Spacer(modifier = Modifier.width(200.dp))
+                    Text(text = "R$ 0,00", modifier = Modifier.align(alignment = Alignment.CenterVertically))
+                }
+
+                Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(text = "${"%.2f".format(sliderPositionState.floatValue * 100)}%")
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Slider(
+                        value = sliderPositionState.floatValue, onValueChange = { value: Float ->
+                            sliderPositionState.floatValue = value
+                        },
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        steps = 5,
+                    )
                 }
             } else {
                 Box() {}
